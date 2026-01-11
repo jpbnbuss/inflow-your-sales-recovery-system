@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useSearchParams } from 'react-router-dom';
 import {
   Zap, Shield, Star, CheckCircle, Users, ChevronDown,
   CreditCard, Lock, Clock, DollarSign, Bot, Target,
@@ -19,6 +20,7 @@ import {
 } from '@/components/ui/accordion';
 import { useState, useEffect, useMemo } from 'react';
 import { WhatsAppButton } from '@/components/WhatsAppButton';
+import { VideoPlayer } from '@/components/VideoPlayer';
 
 const testimonials = [
   { content: "Recuperei R$ 8.450 em vendas perdidas no primeiro mês. O InFlow pagou por si mesmo em 3 dias.", author: "João Silva", role: "Infoprodutor" },
@@ -72,11 +74,18 @@ const faqs = [
   { q: "Onde fica hospedado?", a: "No seu próprio servidor VPS. Você tem controle total e privacidade dos seus dados. Ensinamos como configurar tudo." },
   { q: "Quanto custa o servidor?", a: "A partir de R$27,99/mês em servidores confiáveis. Muito menos do que pagar múltiplas ferramentas de automação que custam R$300-500/mês." },
   { q: "Consigo customizar as mensagens?", a: "Sim! Tudo é personalizável pelo painel web." },
-  { q: "Qual a diferença entre API oficial e não-oficial?", a: "A API oficial tem mais estabilidade mas pode ter limitações. A não-oficial é mais flexível. Você recebe ambas e escolhe qual usar." },
+  //{ q: "Qual a diferença entre API oficial e não-oficial?", a: "A API oficial tem mais estabilidade mas pode ter limitações. A não-oficial é mais flexível. Você recebe ambas e escolhe qual usar." },
 ];
 
 const Index = () => {
+  const [searchParams] = useSearchParams();
   const [joinCount, setJoinCount] = useState(0);
+
+  const checkoutUrl = useMemo(() => {
+    const baseUrl = "https://lastlink.com/p/C2C25FC85/checkout-payment/";
+    const params = searchParams.toString();
+    return params ? `${baseUrl}?${params}` : baseUrl;
+  }, [searchParams]);
 
   const tomorrow = useMemo(() => {
     const d = new Date();
@@ -189,6 +198,8 @@ const Index = () => {
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
               Carrinhos abandonados, faturas geradas, pagamentos recusados e clientes sem resposta. Seu dinheiro está sangrando. Sem depender de mensalidades caras e sem precisar ser programador.
             </p>
+
+            <VideoPlayer />
 
             {/* Avatars + stats */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
@@ -453,10 +464,10 @@ const Index = () => {
                 </div>
 
                 <div className="flex items-center justify-center gap-3">
-                  <span className="text-2xl text-muted-foreground line-through">R$ 97</span>
-                  <span className="text-5xl font-bold font-display text-gradient-primary">R$47</span>
+                  <span className="text-2xl text-muted-foreground">9x de</span>
+                  <span className="text-5xl font-bold font-display text-gradient-primary">R$ 3,62</span>
                 </div>
-                <p className="text-sm text-muted-foreground mt-2">ou 9x de R$ 3,62</p>
+                <p className="text-sm text-muted-foreground mt-2">ou à vista por R$ 47</p>
               </div>
 
               <div className="space-y-3 mb-6">
@@ -483,11 +494,11 @@ const Index = () => {
                 <CountdownTimer />
               </div>*/}
 
-              <CTAButton variant="primary" size="xl" className="w-full mb-4">
+              <CTAButton href={checkoutUrl} variant="primary" size="xl" className="w-full mb-4">
                 GARANTIR MINHA VAGA
               </CTAButton>
 
-              <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground mb-4">
+              {/*<div className="flex items-center justify-center gap-4 text-xs text-muted-foreground mb-4">
                 <div className="flex items-center gap-1">
                   <Lock className="w-3 h-3" />
                   <span>Pagamento Seguro</span>
@@ -498,9 +509,9 @@ const Index = () => {
                 </div>
                 <div className="flex items-center gap-1">
                   <Shield className="w-3 h-3" />
-                  <span>7 Dias de Garantia</span>
+                  <span>15 Dias de Garantia</span>
                 </div>
-              </div>
+              </div>*/}
 
               <div className="flex flex-col items-center gap-2 mb-2">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-accent/10 border border-accent/30 rounded-full">
